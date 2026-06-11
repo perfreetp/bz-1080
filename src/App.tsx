@@ -9,10 +9,11 @@ import { Knowledge } from "@/pages/Knowledge";
 import { Share } from "@/pages/Share";
 import { Summary } from "@/pages/Summary";
 import { Settings } from "@/pages/Settings";
+import { SharedView } from "@/pages/SharedView";
 import { useUISettingsStore } from "@/store/useUISettingsStore";
 
 export default function App() {
-  const { darkMode, setDarkMode } = useUISettingsStore();
+  const { darkMode } = useUISettingsStore();
 
   useEffect(() => {
     if (darkMode) {
@@ -25,6 +26,7 @@ export default function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/share/:token" element={<SharedView />} />
         <Route element={<Layout />}>
           <Route path="/" element={<Dashboard />} />
           <Route path="/feeding" element={<Feeding />} />

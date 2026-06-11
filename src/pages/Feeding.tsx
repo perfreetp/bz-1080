@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Plus, Trash2, Baby, Edit3 } from 'lucide-react';
+import { Plus, Trash2, Baby } from 'lucide-react';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
 import { Modal } from '../components/Modal';
@@ -20,7 +20,7 @@ const tabItems = [
 export const Feeding = () => {
   const { currentBabyId } = useUISettingsStore();
   const { getBaby } = useBabyStore();
-  const { records, addRecord, deleteRecord, getRecordsByType, getTodayRecords } = useFeedingStore();
+  const { addRecord, deleteRecord, getRecordsByType, getTodayRecords } = useFeedingStore();
 
   const [activeTab, setActiveTab] = useState<FeedingType>('milk');
   const [showAddModal, setShowAddModal] = useState(false);
@@ -93,7 +93,7 @@ export const Feeding = () => {
         <h2 className="text-xl md:text-2xl font-extrabold text-gray-800 dark:text-white">
           喂养记录
         </h2>
-        <Button onClick={() => setShowAddModal(true)}>
+        <Button onClick={() => { resetForm(); setShowAddModal(true); }}>
           <Plus className="w-4 h-4" />
           添加
         </Button>
@@ -140,7 +140,7 @@ export const Feeding = () => {
                   <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
                     <span className="text-xl">{getTypeIcon(record.type)}</span>
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 flex-wrap">
                         <span className="font-medium text-gray-800 dark:text-white text-sm">
                           {record.time}
                         </span>
@@ -151,8 +151,9 @@ export const Feeding = () => {
                         )}
                         {record.foodName && (
                           <span className="text-xs text-gray-600 dark:text-gray-300">
-                          {record.foodName}
-                        </span>
+                            {record.foodName}
+                          </span>
+                        )}
                       </div>
                       {record.note && (
                         <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
@@ -198,9 +199,8 @@ export const Feeding = () => {
           </div>
 
           {activeTab === 'milk' && (
-            <>
-              <div className="flex gap-3">
-                <div className="flex-1">
+            <div className="flex gap-3">
+              <div className="flex-1">
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   奶量
                 </label>
@@ -211,22 +211,21 @@ export const Feeding = () => {
                   placeholder="120"
                   className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:ring-2 focus:ring-primary-300 focus:border-transparent outline-none"
                 />
-                </div>
-                <div className="w-24">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    单位
-                  </label>
-                  <select
-                    value={unit}
-                    onChange={(e) => setUnit(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:ring-2 focus:ring-primary-300 focus:border-transparent outline-none"
-                  >
-                    <option value="ml">ml</option>
-                    <option value="oz">oz</option>
-                  </select>
-                </div>
               </div>
-            </>
+              <div className="w-24">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  单位
+                </label>
+                <select
+                  value={unit}
+                  onChange={(e) => setUnit(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:ring-2 focus:ring-primary-300 focus:border-transparent outline-none"
+                >
+                  <option value="ml">ml</option>
+                  <option value="oz">oz</option>
+                </select>
+              </div>
+            </div>
           )}
 
           {activeTab === 'food' && (
